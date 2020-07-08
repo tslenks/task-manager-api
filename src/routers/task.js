@@ -16,7 +16,7 @@ router.post('/tasks', auth, async(req, res) => {
   
   try {
     await task.save();
-    res.send(task);
+    res.status(201).send(task);
   } catch (e) {
     res.status(400).send(e);
   }
@@ -44,7 +44,6 @@ router.get('/tasks', auth, async(req, res) => {
       sort[parts[0]] =  parts[1] === 'desc' ? -1 : 1
     }
 
-
     try {
       // 1st method
       // const user = await Task.find({owner: req.user._id});
@@ -59,7 +58,7 @@ router.get('/tasks', auth, async(req, res) => {
        options: {
         // here we paginate and sort the request
         limit:parseInt(req.query.limit), //2 , if limit is not defined, it will be ignored
-        skip:parseInt(req.query.skip) || 2,
+        skip:parseInt(req.query.skip), //  || 2,
         sort
       }
       }).execPopulate()
